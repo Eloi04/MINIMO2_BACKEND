@@ -54,7 +54,24 @@ public class GameManagerImpl implements GameManager {
         logger.info("Usuario registrado exitosamente");
     }
 
-    public void addUsuarioTest(String id, String name, String ape,String contra, String mail, String q, String a, int tarros, int flores, int mejor) throws UsuarioYaRegistradoException {
+//    public void addUsuarioTest(String id, String name, String ape,String contra, String mail, String q, String a, int tarros, int flores, int mejor) throws UsuarioYaRegistradoException {
+//        logger.info("Registrando nuevo usuario: " + id + " / " + mail);
+//
+//        if (usuarios.containsKey(id)) {
+//            throw new UsuarioYaRegistradoException("El USER ya está registrado");
+//        }
+//
+//        if (usuariosm.containsKey(mail)) {
+//            throw new UsuarioYaRegistradoException("El MAIL ya está registrado");
+//        }
+//
+//        Usuario nuevo = new Usuario(id, name, ape ,contra, mail,q,a, tarros, flores,mejor);
+//        this.usuarios.put(id, nuevo);
+//        this.usuariosm.put(mail, nuevo);
+//        logger.info("Usuario registrado exitosamente");
+//    }
+
+    public void addUsuarioTest(String id, String name, String ape, String contra, String mail, String q, String a, int tarros, int flores, int mejor, int floreGold) throws UsuarioYaRegistradoException {
         logger.info("Registrando nuevo usuario: " + id + " / " + mail);
 
         if (usuarios.containsKey(id)) {
@@ -65,7 +82,8 @@ public class GameManagerImpl implements GameManager {
             throw new UsuarioYaRegistradoException("El MAIL ya está registrado");
         }
 
-        Usuario nuevo = new Usuario(id, name, ape ,contra, mail,q,a, tarros, flores,mejor);
+        Usuario nuevo = new Usuario(id, name, ape, contra, mail, q, a, tarros, flores, mejor);
+        nuevo.setFloreGold(floreGold); // Inicializar floreGold
         this.usuarios.put(id, nuevo);
         this.usuariosm.put(mail, nuevo);
         logger.info("Usuario registrado exitosamente");
@@ -82,7 +100,7 @@ public class GameManagerImpl implements GameManager {
         if (!u.getPswd().equals(pswd)) {
             throw new CredencialesIncorrectasException("Contraseña incorrecta");
         }
-        UsuarioEnviar usu = new UsuarioEnviar(u.getId(), u.getName(), u.getPswd(), u.getMail(), u.getPregunta(), u.getRespuesta());
+        UsuarioEnviar usu = new UsuarioEnviar(u.getId(), u.getName(), u.getPswd(), u.getMail(), u.getPregunta(), u.getRespuesta(), u.getTarrosMiel(), u.getFlor(), u.getMejorPuntuacion(), u.getNumPartidas(), u.getFloreGold());
         return usu;
     }
     @Override
@@ -120,23 +138,66 @@ public class GameManagerImpl implements GameManager {
             System.out.println(y.getTarrosMiel());
             return y;
     }
+//    @Override
+//    public void initTestUsers() throws UsuarioYaRegistradoException {
+//        try {
+//            this.addUsuarioTest("carlos2004", "Carlos","Gonzalez", "123", "carlos@gmail.com","Tu comida favorita?","Arroz", 1000, 106, 250 );
+//            this.addUsuarioTest("MSC78", "Marc", "Lopez","321", "marc@gmail.com","Como se llamaba tu escuela de Primaria?" ,"Dali", 1500, 120, 500 );
+//            this.addUsuarioTest("Test", "Dani", "Buenosdias","147", "dani@gmail.com","El nombre de tu familiar mas mayor?" ,"Teresa",2500, 151, 190 );
+//            this.addObjeto(new Objeto("1", "Palo",200 ,1, "Un paaaaaaaaaaaaaalo","palo1.png"));
+//            this.addObjeto(new Objeto("2", "Hacha",700, 1,"Un hacha asequible para todos pero mortal como ninguna, su especialidad: las telarañas" ,"hacha1.png"));
+//            this.addObjeto(new Objeto("3", "Gorro Pirata", 1000, 2, "Para surcar los mares","gorropirata.png"));
+//            this.addObjeto(new Objeto("4", "Gorro Patito", 1000, 2, "Para nadar mucho","gorropatito.png"));
+//            this.addObjeto(new Objeto("5", "Mister Potato", 1000, 2, "Para ser feliz","misterpotato.png"));
+//            this.addObjeto(new Objeto("7", "Espada",1150 ,1, "Un corte profundo que hiere a las arañas más poderosas","espada1.png"));
+//            this.addObjeto(new Objeto("8", "Espada Real",1350 ,1, "De su corte se entera hasta la mismisima Anansi","espada2.png"));
+//        } catch (UsuarioYaRegistradoException e) {
+//            logger.warn("Usuario de prueba ya estaba registrado");
+//        }
+//    }
+
     @Override
     public void initTestUsers() throws UsuarioYaRegistradoException {
         try {
-            this.addUsuarioTest("carlos2004", "Carlos","Gonzalez", "123", "carlos@gmail.com","Tu comida favorita?","Arroz", 1000, 106, 250 );
-            this.addUsuarioTest("MSC78", "Marc", "Lopez","321", "marc@gmail.com","Como se llamaba tu escuela de Primaria?" ,"Dali", 1500, 120, 500 );
-            this.addUsuarioTest("Test", "Dani", "Buenosdias","147", "dani@gmail.com","El nombre de tu familiar mas mayor?" ,"Teresa",2500, 151, 190 );
-            this.addObjeto(new Objeto("1", "Palo",200 ,1, "Un paaaaaaaaaaaaaalo","palo1.png"));
-            this.addObjeto(new Objeto("2", "Hacha",700, 1,"Un hacha asequible para todos pero mortal como ninguna, su especialidad: las telarañas" ,"hacha1.png"));
-            this.addObjeto(new Objeto("3", "Gorro Pirata", 1000, 2, "Para surcar los mares","gorropirata.png"));
-            this.addObjeto(new Objeto("4", "Gorro Patito", 1000, 2, "Para nadar mucho","gorropatito.png"));
-            this.addObjeto(new Objeto("5", "Mister Potato", 1000, 2, "Para ser feliz","misterpotato.png"));
-            this.addObjeto(new Objeto("7", "Espada",1150 ,1, "Un corte profundo que hiere a las arañas más poderosas","espada1.png"));
-            this.addObjeto(new Objeto("8", "Espada Real",1350 ,1, "De su corte se entera hasta la mismisima Anansi","espada2.png"));
+            // Crear usuarios de prueba
+            this.addUsuarioTest("carlos2004", "Carlos", "Gonzalez", "123", "carlos@gmail.com", "Tu comida favorita?", "Arroz", 1000, 106, 250, 5);
+            this.addUsuarioTest("MSC78", "Marc", "Lopez", "321", "marc@gmail.com", "Como se llamaba tu escuela de Primaria?", "Dali", 1500, 120, 500, 10);
+            this.addUsuarioTest("Test", "Dani", "Buenosdias", "147", "dani@gmail.com", "El nombre de tu familiar mas mayor?", "Teresa", 2500, 151, 190, 15);
+
+            // Crear objetos de prueba
+            this.addObjeto(new Objeto("1", "Palo", 200, 1, "Un paaaaaaaaaaaaaalo", "palo1.png"));
+            this.addObjeto(new Objeto("2", "Hacha", 700, 1, "Un hacha asequible para todos pero mortal como ninguna, su especialidad: las telarañas", "hacha1.png"));
+            this.addObjeto(new Objeto("3", "Gorro Pirata", 1000, 2, "Para surcar los mares", "gorropirata.png"));
+            this.addObjeto(new Objeto("4", "Gorro Patito", 1000, 2, "Para nadar mucho", "gorropatito.png"));
+            this.addObjeto(new Objeto("5", "Mister Potato", 1000, 2, "Para ser feliz", "misterpotato.png"));
+            this.addObjeto(new Objeto("7", "Espada", 1150, 1, "Un corte profundo que hiere a las arañas más poderosas", "espada1.png"));
+            this.addObjeto(new Objeto("8", "Espada Real", 1350, 1, "De su corte se entera hasta la mismisima Anansi", "espada2.png"));
+
+//            // Asignar objetos a usuarios (solo el caso de ejemplo para 'Test')
+//            Usuario usuarioTest = this.usuarios.get("Test");
+//            Objeto espada = this.objetos.get("7");
+//            if (usuarioTest != null && espada != null) {
+//                usuarioTest.UpdateArmas(espada);
+//            }
+//
+//            System.out.println(objetos.get(1).getNombre());
+//            System.out.println(objetos.get(7).getNombre());
+//
+//            // Ahora, asegúrate de que el arma está guardada en el HashMap de armas del usuario 'Test'
+//            if (usuarioTest != null && !usuarioTest.getArmas().isEmpty()) {
+//                // Obtener el primer objeto del HashMap de armas
+//                Objeto objetoGuardado = usuarioTest.getArmas().values().iterator().next();
+//                logger.info("El usuario 'Test' tiene guardado el objeto (desde el HashMap): " + objetoGuardado.getNombre());
+//            } else {
+//                logger.info("El usuario 'Test' no tiene armas guardadas o no existe.");
+//            }
+//
+//            logger.info("Usuarios de prueba inicializados.");
         } catch (UsuarioYaRegistradoException e) {
             logger.warn("Usuario de prueba ya estaba registrado");
         }
     }
+
 
     @Override
     public ConsultaTienda findArmas() {
@@ -267,7 +328,7 @@ public class GameManagerImpl implements GameManager {
         u.setFlor(FloresSobrantes);
         u.setFloreGold(0);
         u.setTarrosMiel(u.getTarrosMiel() + Tarros);
-        Intercambio i = new Intercambio(Tarros, FloresSobrantes);
+        Intercambio i = new Intercambio(u.getTarrosMiel(), FloresSobrantes);
         System.out.println(u.getTarrosMiel() + "+" + u.getFlor()+ "+" + u.getFloreGold());
         return i;
     }

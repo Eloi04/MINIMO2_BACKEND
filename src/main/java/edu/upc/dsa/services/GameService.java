@@ -150,20 +150,41 @@ public class GameService {
         }
     }
 
+//    @GET
+//    @Path("/tienda/{id}/armas")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response getArmasUsuario(@PathParam("id")String u) {
+//        try {
+//            ConsultaTienda armas = gm.armasUsuario(u);
+//            return Response.ok(armas).build();
+//        } catch (CredencialesIncorrectasException e) {
+//            System.out.println("Error interno del servidor");
+//            return Response.status(401).entity(e.getMessage()).build();
+//        } catch (NoHayObjetos e) {
+//            return Response.status(400).entity(e.getMessage()).build();
+//        }
+//    }
     @GET
     @Path("/tienda/{id}/armas")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getArmasUsuario(@PathParam("id")String u) {
         try {
+            System.out.println("Pidiendo armas de usuario: " + u);
             ConsultaTienda armas = gm.armasUsuario(u);
+            System.out.println("Respuesta armas: " + armas);
             return Response.ok(armas).build();
         } catch (CredencialesIncorrectasException e) {
             System.out.println("Error interno del servidor");
             return Response.status(401).entity(e.getMessage()).build();
         } catch (NoHayObjetos e) {
+            System.out.println("No hay objetos para el usuario " + u);
             return Response.status(400).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            e.printStackTrace(); // Más detalles en consola
+            return Response.status(500).entity("Error interno al serializar: " + e.getMessage()).build();
         }
     }
+
 
     @GET
     @Path("/tienda/{id}/skins")

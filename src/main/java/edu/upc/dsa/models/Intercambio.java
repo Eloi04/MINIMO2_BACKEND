@@ -4,7 +4,8 @@ public class Intercambio {
     private int tarrosMiel;
     private int flores;
 
-    public Intercambio(int tarrosMiel){}
+    public Intercambio(){}
+
     public Intercambio(int tarrosMiel, int Flores){
         this.tarrosMiel = tarrosMiel;
         this.flores = Flores;

@@ -2,7 +2,6 @@ package edu.upc.dsa.models;
 
 public class UsuarioEnviar {
 
-
     private String id;
     private String name;
     private String pswd;
@@ -19,16 +18,16 @@ public class UsuarioEnviar {
 
     public UsuarioEnviar() {}
 
-    public UsuarioEnviar(String id, String name, String pswd, String mail, String q, String a) { // Primera vez que entras
+    public UsuarioEnviar(String id, String name, String pswd, String mail, String q, String a, int tarrosMiel, int flor, int mejorPuntuacion, int numPartidas,int floreGold) { // Primera vez que entras
         this.id = id;
         this.name = name;
         this.pswd = pswd;
         this.mail = mail;
-        this.tarrosMiel = 0;
-        this.flor = 0;
-        this.mejorPuntuacion = 0;
-        this.numPartidas = 0;
-        this.floreGold = 0;
+        this.tarrosMiel = tarrosMiel;
+        this.flor = flor;
+        this.mejorPuntuacion = mejorPuntuacion;
+        this.numPartidas = numPartidas;
+        this.floreGold = floreGold;
         this.pregunta = q;
         this.respuesta = a;
     }

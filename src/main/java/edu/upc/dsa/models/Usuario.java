@@ -59,9 +59,13 @@ public class Usuario {
         this.armas = new HashMap<>();
         this.skins = new HashMap<>();
     }
-    public void UpdateArmas(Objeto objeto){
+    public void UpdateArmas(Objeto objeto) {
+        if (objeto == null) {
+            throw new IllegalArgumentException("El objeto no puede ser null");
+        }
         armas.put(objeto.getId(), objeto);
     }
+
     public void UpdateSkin(Objeto objeto){
         skins.put(objeto.getId(), objeto);
     }
