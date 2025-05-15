@@ -13,12 +13,14 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
 
+
 @Api(value = "/usuarios", description = "Endpoint to Usuario Service")
 @Path("/usuarios")
 public class GameService {
 
     private GameManager gm;
     private static boolean initialized = false; // Bandera estática
+    private static final Logger logger = Logger.getLogger(GameService.class.getName());
 
     public GameService() throws UsuarioYaRegistradoException {
         this.gm = GameManagerImpl.getInstance(); // new GameManagerDAO()
@@ -27,6 +29,9 @@ public class GameService {
                 this.gm.initTestUsers();
                 initialized = true;
             } catch (UsuarioYaRegistradoException e) {
+                logger.info("Usuarios ya registrados, pero objetos se cargan igual");
+                this.gm.initTestUsers(); // Forzar carga de objetos
+                initialized = true;
             }
         }
     }

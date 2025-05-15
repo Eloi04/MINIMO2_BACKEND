@@ -106,7 +106,7 @@ public class GameManagerImpl implements GameManager {
     @Override
     public void addObjeto(Objeto objeto) {
         logger.info("Iniciando objeto");
-        this.objetos.put(objeto.getNombre(), objeto);
+        this.objetos.put(objeto.getId(), objeto);
     }
 
     @Override
@@ -120,12 +120,17 @@ public class GameManagerImpl implements GameManager {
         // se ha registrado, mi idea esq en la web arriba a la derecha tengas un parametro con tu
         //id para almacenar la variable y poderla mandar en cada JSON
         Usuario u = this.usuarios.get(compra.getUsuarioId());
-        if(u == null) {
-            throw new UsuarioNoAutenticadoException("Usuario no autenticado o no encontrado. Debe iniciar sesión.");
+        if (u == null) {
+            throw new UsuarioNoAutenticadoException("Usuario no encontrado");
         }
-        Objeto o = objetos.get(compra.getObjeto());
-        if(o.getPrecio() > u.getTarrosMiel()){
-            throw new NoSuficientesTarrosException("No tienes suficiente Miel");
+
+        Objeto o = objetos.get(compra.getObjeto()); // Asegúrate que "objetos" es un Map<String, Objeto>
+        if (o == null) { // <--- Validación crítica
+            throw new IllegalArgumentException("Objeto no existe");
+        }
+
+        if (o.getPrecio() > u.getTarrosMiel()) {
+            throw new NoSuficientesTarrosException("Miel insuficiente");
         }
             u.setTarrosMiel(u.getTarrosMiel() - o.getPrecio());
             if(o.getTipo() == 1){ //arma
