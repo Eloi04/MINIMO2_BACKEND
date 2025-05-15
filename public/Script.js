@@ -119,7 +119,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         };
 
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/login",
+            url: "/dsaApp/usuarios/login",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(loginData),
@@ -172,7 +172,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         }
 
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/register",
+            url: "/dsaApp/usuarios/register",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(signupData),
@@ -207,7 +207,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         }
 
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/login/recordarContraseña",
+            url: "/dsaApp/usuarios/login/recordarContraseña",
             type: "GET",
             contentType: "application/json",
             data: { id: usuarioData }, // como solo tiene un valor lo enviamos de este formato
@@ -242,7 +242,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
             respuesta: $("#respuesta-olv").val(),
         };
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/login/recuperarCuenta",
+            url: "/dsaApp/usuarios/login/recuperarCuenta",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(usuarioData),
@@ -269,7 +269,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
             return;
         }
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/login/cambiarContraseña",
+            url: "/dsaApp/usuarios/login/cambiarContraseña",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(usuarioData),
@@ -303,7 +303,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         const obtenerArmasCompradas = new Promise((resolve, reject) => {
             //Lo que se ha hecho ha sido crear una variable que cuando se cumpla estara resolve
             $.ajax({
-                url: "http://localhost:8080/dsaApp/usuarios/tienda/" + usuarioActual.id + "/armas",
+                url: "/dsaApp/usuarios/tienda/" + usuarioActual.id + "/armas",
                 type: "GET",
                 contentType: "application/json",
                 success: function (response) {
@@ -332,7 +332,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
 
         const obtenerSkinsCompradas = new Promise((resolve, reject) => {
             $.ajax({
-                url: "http://localhost:8080/dsaApp/usuarios/tienda/" + usuarioActual.id + "/skins",
+                url: "/dsaApp/usuarios/tienda/" + usuarioActual.id + "/skins",
                 type: "GET",
                 contentType: "application/json",
                 success: function (response) {
@@ -354,7 +354,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         Promise.all([obtenerArmasCompradas, obtenerSkinsCompradas]).then(() => {
 //Una vez se cumplan las 2 hace lo del {}
             $.ajax({
-                url: "http://localhost:8080/dsaApp/usuarios/tienda/armas",
+                url: "/dsaApp/usuarios/tienda/armas",
                 type: "GET",
                 contentType: "application/json",
                 success: function (response) {
@@ -402,7 +402,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
 
             // SKINS
             $.ajax({
-                url: "http://localhost:8080/dsaApp/usuarios/tienda/skins",
+                url: "/dsaApp/usuarios/tienda/skins",
                 type: "GET",
                 contentType: "application/json",
                 success: function (response) {
@@ -460,7 +460,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         };
 
         $.ajax({
-            url: "http://localhost:8080/dsaApp/usuarios/comprar",
+            url: "/dsaApp/usuarios/comprar",
             type: "PUT",
             data: JSON.stringify(jsonData),
             contentType: "application/json",
@@ -484,7 +484,7 @@ $(document).ready(function() { // espera a que todo este cargado ( el html)
         e.preventDefault();
         const userId = usuarioActual.id; // o el valor que necesites
         $.ajax({
-            url: "http://localhost:8080/dsaApp/"+ usuarioActual.id +"/conversion",
+            url: "/dsaApp/"+ usuarioActual.id +"/conversion",
             type: "PUT",
             contentType: "application/json",
             success: function (response) {
