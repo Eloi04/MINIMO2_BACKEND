@@ -6,12 +6,13 @@ public class Info {
     private int mejorPuntuacion;
     private int numPartidas;
 
+    public Info(){}
+
     public Info(String usuario, int mejorPuntuacion, int numPartidas) {
         this.usuario = usuario;
         this.mejorPuntuacion = mejorPuntuacion;
         this.numPartidas = numPartidas;
     }
-    public Info(){}
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;

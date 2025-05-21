@@ -178,26 +178,26 @@ public class GameManagerImpl implements GameManager {
             this.addObjeto(new Objeto("7", "Espada", 1150, 1, "Un corte profundo que hiere a las arañas más poderosas", "espada1.png"));
             this.addObjeto(new Objeto("8", "Espada Real", 1350, 1, "De su corte se entera hasta la mismisima Anansi", "espada2.png"));
 
-//            // Asignar objetos a usuarios (solo el caso de ejemplo para 'Test')
-//            Usuario usuarioTest = this.usuarios.get("Test");
-//            Objeto espada = this.objetos.get("7");
-//            if (usuarioTest != null && espada != null) {
-//                usuarioTest.UpdateArmas(espada);
-//            }
-//
-//            System.out.println(objetos.get(1).getNombre());
-//            System.out.println(objetos.get(7).getNombre());
-//
-//            // Ahora, asegúrate de que el arma está guardada en el HashMap de armas del usuario 'Test'
-//            if (usuarioTest != null && !usuarioTest.getArmas().isEmpty()) {
-//                // Obtener el primer objeto del HashMap de armas
-//                Objeto objetoGuardado = usuarioTest.getArmas().values().iterator().next();
-//                logger.info("El usuario 'Test' tiene guardado el objeto (desde el HashMap): " + objetoGuardado.getNombre());
-//            } else {
-//                logger.info("El usuario 'Test' no tiene armas guardadas o no existe.");
-//            }
-//
-//            logger.info("Usuarios de prueba inicializados.");
+            // Asignar objetos a usuarios (solo el caso de ejemplo para 'Test')
+            Usuario usuarioTest = this.usuarios.get("Test");
+            Objeto espada = this.objetos.get("7");
+            if (usuarioTest != null && espada != null) {
+                usuarioTest.UpdateArmas(espada);
+            }
+
+            System.out.println(objetos.get("1").getNombre());
+            System.out.println(objetos.get("7").getNombre());
+
+            // Ahora, asegúrate de que el arma está guardada en el HashMap de armas del usuario 'Test'
+            if (usuarioTest != null && !usuarioTest.getArmas().isEmpty()) {
+                // Obtener el primer objeto del HashMap de armas
+                Objeto objetoGuardado = usuarioTest.getArmas().values().iterator().next();
+                logger.info("El usuario 'Test' tiene guardado el objeto (desde el HashMap): " + objetoGuardado.getNombre());
+            } else {
+                logger.info("El usuario 'Test' no tiene armas guardadas o no existe.");
+            }
+
+            logger.info("Usuarios de prueba inicializados.");
         } catch (UsuarioYaRegistradoException e) {
             logger.warn("Usuario de prueba ya estaba registrado");
         }
