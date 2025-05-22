@@ -22,5 +22,5 @@ public interface GameManager {
     public ConsultaTienda armasUsuario(String usuario) throws CredencialesIncorrectasException, NoHayObjetos;
     public void deleteUsuario(String id) throws UsuarioNoEncontradoException;
     public Intercambio intercambio(String usuario) throws CredencialesIncorrectasException, NoHayFlores;
-    public List<Info> informcion ();
+    public InfoList rankingConPosicion(String userId);
 }

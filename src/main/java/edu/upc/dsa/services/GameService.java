@@ -224,11 +224,15 @@ public class GameService {
     }
 
     @GET
-    @Path("/informacion")
+    @Path("/informacion/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getInfo() {
-        List<Info> informcion = gm.informcion();
-        return Response.status(200).entity(informcion).build();
+    public Response getRankingConPosicion(@PathParam("userId") String userId) {
+        try {
+            InfoList infoList = gm.rankingConPosicion(userId);
+            return Response.status(200).entity(infoList).build();
+        } catch (Exception e) {
+            return Response.status(500).entity("Error interno").build();
+        }
     }
 }
 
