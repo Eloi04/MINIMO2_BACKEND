@@ -478,4 +478,7 @@ public class GameManagerImpl implements GameManager {
             logger.error("Error cargando objetos: " + e.getMessage());
         }
     }
+    public Map<String, Usuario> getUsuarios() {
+        return this.usuarios;
+    }
 }

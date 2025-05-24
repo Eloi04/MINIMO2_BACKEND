@@ -1,10 +1,11 @@
 package edu.upc.dsa.services;
 
-
 import edu.upc.dsa.GameManager;
 import edu.upc.dsa.GameManagerImpl;
 import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.*;
+import edu.upc.dsa.models.ForumManager;
+import edu.upc.dsa.models.ChatManager;
 import io.swagger.annotations.Api;
 
 import javax.ws.rs.*;
@@ -13,26 +14,32 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 @Api(value = "/usuarios", description = "Endpoint to Usuario Service")
 @Path("/usuarios")
 public class GameService {
 
     private GameManager gm;
-    private static boolean initialized = false; // Bandera estática
+    private static boolean initialized = false; // Bandera estática para usuarios
+    private static boolean forumAndChatInitialized = false; // Bandera para foro y chat
     private static final Logger logger = Logger.getLogger(GameService.class.getName());
 
     public GameService() throws UsuarioYaRegistradoException {
-        this.gm = GameManagerImpl.getInstance(); // new GameManagerDAO()
+        this.gm = GameManagerImpl.getInstance();
         if (!initialized) {
             try {
                 this.gm.initTestUsers();
                 initialized = true;
             } catch (UsuarioYaRegistradoException e) {
                 logger.info("Usuarios ya registrados, pero objetos se cargan igual");
-                this.gm.initTestUsers(); // Forzar carga de objetos
+                this.gm.initTestUsers();
                 initialized = true;
             }
+        }
+        // Inicializar foro y chat solo una vez
+        if (!forumAndChatInitialized) {
+            ForumManager.getInstance().initTestForum();
+            ChatManager.getInstance().initTestChat();
+            forumAndChatInitialized = true;
         }
     }
 
@@ -43,11 +50,11 @@ public class GameService {
     public Response registerUsuario(UsuReg usuReg) {
         try {
             gm.addUsuario(usuReg.getId(), usuReg.getName(), usuReg.getApellidos(),usuReg.getPswd(), usuReg.getMail(), usuReg.getPregunta(), usuReg.getRespuesta());
-            return Response.status(201).build(); // Registrado con éxito
+            return Response.status(201).build();
         } catch (UsuarioYaRegistradoException e) {
-            return Response.status(409).entity(e.getMessage()).build(); // Conflicto
+            return Response.status(409).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500).entity("Error interno del servidor").build(); // Error general
+            return Response.status(500).entity("Error interno del servidor").build();
         }
     }
 
@@ -58,13 +65,11 @@ public class GameService {
     public Response loginUsuario(Usulogin loginData) {
         try {
             UsuarioEnviar u = gm.login(loginData.getIdoname(), loginData.getPswd());
-            return Response.status(200).entity(u).build(); // Login OK
+            return Response.status(200).entity(u).build();
         } catch (CredencialesIncorrectasException e) {
-
-            return Response.status(401).entity(e.getMessage()).build(); // No autorizado
+            return Response.status(401).entity(e.getMessage()).build();
         } catch (Exception e) {
-
-            return Response.status(500).entity("Error interno del servidor").build(); // Error general
+            return Response.status(500).entity("Error interno del servidor").build();
         }
     }
 
@@ -103,9 +108,9 @@ public class GameService {
     @Path("/tienda/armas")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getArmas() {
-            System.out.println("va el getArmas():");
-            ConsultaTienda armas = gm.findArmas();
-            return Response.status(200).entity(armas).build();
+        System.out.println("va el getArmas():");
+        ConsultaTienda armas = gm.findArmas();
+        return Response.status(200).entity(armas).build();
     }
 
     @GET
@@ -128,6 +133,7 @@ public class GameService {
             return Response.status(401).entity(e.getMessage()).build();
         }
     }
+
     @POST
     @Path("/login/recuperarCuenta")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -135,13 +141,14 @@ public class GameService {
     public Response loginUsuario(OlvContra usu) {
         try {
             Usuario u = gm.relogin(usu.getId(), usu.getRespuesta());
-            return Response.status(200).entity(u).build(); // Login OK
+            return Response.status(200).entity(u).build();
         } catch (CredencialesIncorrectasException e) {
-            return Response.status(401).entity(e.getMessage()).build(); // No autorizado
+            return Response.status(401).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500).entity("Error interno del servidor").build(); // Error general
+            return Response.status(500).entity("Error interno del servidor").build();
         }
     }
+
     @POST
     @Path("/login/cambiarContraseña")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -155,20 +162,6 @@ public class GameService {
         }
     }
 
-//    @GET
-//    @Path("/tienda/{id}/armas")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getArmasUsuario(@PathParam("id")String u) {
-//        try {
-//            ConsultaTienda armas = gm.armasUsuario(u);
-//            return Response.ok(armas).build();
-//        } catch (CredencialesIncorrectasException e) {
-//            System.out.println("Error interno del servidor");
-//            return Response.status(401).entity(e.getMessage()).build();
-//        } catch (NoHayObjetos e) {
-//            return Response.status(400).entity(e.getMessage()).build();
-//        }
-//    }
     @GET
     @Path("/tienda/{id}/armas")
     @Produces(MediaType.APPLICATION_JSON)
@@ -185,11 +178,10 @@ public class GameService {
             System.out.println("No hay objetos para el usuario " + u);
             return Response.status(400).entity(e.getMessage()).build();
         } catch (Exception e) {
-            e.printStackTrace(); // Más detalles en consola
+            e.printStackTrace();
             return Response.status(500).entity("Error interno al serializar: " + e.getMessage()).build();
         }
     }
-
 
     @GET
     @Path("/tienda/{id}/skins")
@@ -235,6 +227,3 @@ public class GameService {
         }
     }
 }
-
-
-
