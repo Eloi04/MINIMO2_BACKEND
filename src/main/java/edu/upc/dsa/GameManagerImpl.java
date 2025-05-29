@@ -404,16 +404,13 @@ public class GameManagerImpl implements GameManager {
     }
     @Override
     public void consultas(String data, String title, String message, String sender) throws CredencialesIncorrectasException {
-        if (data == null || data.isEmpty() ||
-                title == null || title.isEmpty() ||
-                message == null || message.isEmpty() ||
-                sender == null || sender.isEmpty()) {
-            throw new CredencialesIncorrectasException("Falta información");
+        if (data == "" || title == "" || message == "" || sender == ""){
+            throw new CredencialesIncorrectasException("Falta informacion");
         }
-
-        Questionari questionari = new Questionari(data, title, message, sender);
-        this.consultas.add(questionari);
-        logger.info("Consulta añadia a: " + title);
+        else{
+            Questionari questionari = new Questionari (data, title, message, sender);
+            this.consultas.add(questionari);
+        }
     }
 
     public InfoList rankingConPosicion(String userId) {

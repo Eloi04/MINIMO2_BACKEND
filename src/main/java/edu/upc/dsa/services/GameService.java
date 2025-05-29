@@ -226,43 +226,21 @@ public class GameService {
         }
     }
 
+    @POST
     @Path("/questionari")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public class FormulariController {
-
-        private final GameManager manager = GameManagerImpl.getInstance();
-
-        @POST
-        public Response recibirFormulari(Questionari questionari) {
-            if (questionari == null ||
-                    questionari.getData() == null || questionari.getData().isEmpty() ||
-                    questionari.getTitle() == null || questionari.getTitle().isEmpty() ||
-                    questionari.getMessage() == null || questionari.getMessage().isEmpty() ||
-                    questionari.getSender() == null || questionari.getSender().isEmpty()) {
-                return Response.status(Response.Status.BAD_REQUEST)
-                        .entity("Falten camps obligatoris al formulari").build();
-            }
-
-            try {
-                manager.consultas(
-                        questionari.getData(),
-                        questionari.getTitle(),
-                        questionari.getMessage(),
-                        questionari.getSender()
-                );
-                return Response.status(Response.Status.CREATED)
-                        .entity("Questionari rebut correctament").build();
-
-            } catch (CredencialesIncorrectasException e) {
-                return Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("Error: dades incorrectes").build();
-
-            } catch (Exception e) {
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("Error intern del servidor: " + e.getMessage()).build();
-            }
+    public Response formulari(Questionari questionari){
+        try {
+            GameManager manager = GameManagerImpl.getInstance();
+            manager.consultas(questionari.getData(), questionari.getTitle(), questionari.getMessage(), questionari.getSender());
+            return Response.status(201).entity(questionari).build();
+        } catch (CredencialesIncorrectasException e) {
+            return Response.status(404).entity(questionari).build();
+        } catch (Exception e) {
+            return Response.status(500).entity(questionari).build();
         }
     }
+
 
 }
