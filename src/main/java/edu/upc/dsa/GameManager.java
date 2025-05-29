@@ -23,5 +23,5 @@ public interface GameManager {
     public void deleteUsuario(String id) throws UsuarioNoEncontradoException;
     public Intercambio intercambio(String usuario) throws CredencialesIncorrectasException, NoHayFlores;
     public InfoList rankingConPosicion(String userId);
-
+    public void consultas(String data, String title, String message, String sender) throws CredencialesIncorrectasException;
 }

@@ -2,6 +2,8 @@ package edu.upc.dsa;
 import edu.upc.dsa.exceptions.*;
 import edu.upc.dsa.models.*;
 import org.apache.log4j.Logger;
+import edu.upc.dsa.models.Questionari;
+import java.util.LinkedList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +22,11 @@ public class GameManagerImpl implements GameManager {
     private static final String USUARIOS_FILE = "usuarios.json";
     private static final String OBJETOS_FILE = "objetos.json";
     final static Logger logger = Logger.getLogger(GameManagerImpl.class);
+    protected List<Questionari> consultas;
 
     public GameManagerImpl() {
         this.usuarios = new HashMap<>();
+        this.consultas = new LinkedList<>();
         this.usuariosm = new HashMap<>();
         this.objetos = new HashMap<>();
         cargarUsuarios();
@@ -398,7 +402,20 @@ public class GameManagerImpl implements GameManager {
         System.out.println(u.getTarrosMiel() + "+" + u.getFlor()+ "+" + u.getFloreGold());
         return i;
     }
-    
+    @Override
+    public void consultas(String data, String title, String message, String sender) throws CredencialesIncorrectasException {
+        if (data == null || data.isEmpty() ||
+                title == null || title.isEmpty() ||
+                message == null || message.isEmpty() ||
+                sender == null || sender.isEmpty()) {
+            throw new CredencialesIncorrectasException("Falta información");
+        }
+
+        Questionari questionari = new Questionari(data, title, message, sender);
+        this.consultas.add(questionari);
+        logger.info("Consulta añadia a: " + title);
+    }
+
     public InfoList rankingConPosicion(String userId) {
         List<Usuario> allUsers = new ArrayList<>(usuarios.values());
 
